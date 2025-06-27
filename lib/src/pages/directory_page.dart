@@ -11,7 +11,7 @@ class DirectoryPage extends StatefulWidget {
   });
 
   final Directory directory;
-  final Widget Function(File file)? onFilePageBuilder;
+  final Widget? Function(File file)? onFilePageBuilder;
 
   @override
   State<DirectoryPage> createState() => _DirectoryPageState();
@@ -176,19 +176,26 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 isSelected: isSelectMode && selectedIndexes.contains(index),
                 onLongPress: () => onLongPress(index),
                 onPressed: () {
+                  bool isToFileDetailsPage = true;
                   if (isSelectMode) {
                     onPressedInSelectMode(index);
+                    isToFileDetailsPage = false;
                   } else if (widget.onFilePageBuilder != null) {
-                    Widget? fileDetailsPage;
-                    fileDetailsPage = widget.onFilePageBuilder!(fileEntity);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return fileDetailsPage!;
-                        },
-                      ),
-                    );
-                  } else {
+                    Widget? fileDetailsPage =
+                        widget.onFilePageBuilder!(fileEntity);
+                    if (fileDetailsPage != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return fileDetailsPage!;
+                          },
+                        ),
+                      );
+                      isToFileDetailsPage = false;
+                    }
+                  }
+
+                  if (isToFileDetailsPage) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => FileDetailsPage(

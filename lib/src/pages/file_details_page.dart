@@ -60,10 +60,10 @@ class _FileDetailsPageState extends State<FileDetailsPage> {
           // ],
         ),
         body: hasError
-            ? const Center(
+            ? Center(
                 child: Text(
-                  "Error when trying to read this file",
-                  style: TextStyle(
+                  "不支持$fileNameExtension文件类型预览",
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
                 ),

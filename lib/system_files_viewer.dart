@@ -14,7 +14,7 @@ class SystemFilesViewer {
   static Future<T?> openDirectoryPage<T>({
     required BuildContext context,
     required Directory directory,
-    Widget Function(File file)? onFilePageBuilder,
+    Widget? Function(File file)? onFilePageBuilder,
   }) {
     return Navigator.of(context).push(
       MaterialPageRoute(
@@ -31,29 +31,30 @@ class SystemFilesViewer {
   static Future<T?> openFileDetailsPage<T>({
     required BuildContext context,
     required File file,
-    Widget Function()? onFilePageBuilder,
+    Widget? Function()? onFilePageBuilder,
   }) {
     Widget? fileDetailsPage;
     if (onFilePageBuilder != null) {
       fileDetailsPage = onFilePageBuilder();
-      return Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return fileDetailsPage!;
-          },
-        ),
-      );
-    } else {
-      return Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return FileDetailsPage(
-              file: file,
-              // onHlsPlayPressed: onHlsPlayPressed,
-            );
-          },
-        ),
-      );
+      if (fileDetailsPage != null) {
+        return Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return fileDetailsPage!;
+            },
+          ),
+        );
+      }
     }
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return FileDetailsPage(
+            file: file,
+            // onHlsPlayPressed: onHlsPlayPressed,
+          );
+        },
+      ),
+    );
   }
 }

@@ -40,7 +40,19 @@ class _ExamplePageState extends State<ExamplePage> {
 
             if (context.mounted) {
               SystemFilesViewer.openDirectoryPage(
-                  context: context, directory: directory);
+                context: context,
+                directory: directory.parent,
+                onFilePageBuilder: (file) {
+                  if (file.path.endsWith(".plist")) {
+                    return Scaffold(
+                        appBar: AppBar(
+                          title: Text(file.path.split('/').last),
+                        ),
+                        body: const Center(child: Text("这是一个自定义预览页面")));
+                  }
+                  return null;
+                },
+              );
             }
           },
           child: const Text("Enter directory"),
