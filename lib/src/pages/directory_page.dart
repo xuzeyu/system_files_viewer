@@ -189,17 +189,18 @@ class _DirectoryPageState extends State<DirectoryPage> {
                           },
                         ),
                       );
-                    }
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => FileDetailsPage(
-                          file: fileEntity,
-                          // onHlsPlayPressed: () {
-                          //   widget.onFilePressed?.call(fileEntity);
-                          // },
+                    } else {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FileDetailsPage(
+                            file: fileEntity,
+                            // onHlsPlayPressed: () {
+                            //   widget.onFilePressed?.call(fileEntity);
+                            // },
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
                 },
               );
