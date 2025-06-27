@@ -180,27 +180,25 @@ class _DirectoryPageState extends State<DirectoryPage> {
                     onPressedInSelectMode(index);
                   } else if (widget.onFilePageBuilder != null) {
                     Widget? fileDetailsPage;
-                    if (widget.onFilePageBuilder != null) {
-                      fileDetailsPage = widget.onFilePageBuilder!(fileEntity);
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return fileDetailsPage!;
-                          },
+                    fileDetailsPage = widget.onFilePageBuilder!(fileEntity);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return fileDetailsPage!;
+                        },
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FileDetailsPage(
+                          file: fileEntity,
+                          // onHlsPlayPressed: () {
+                          //   widget.onFilePressed?.call(fileEntity);
+                          // },
                         ),
-                      );
-                    } else {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => FileDetailsPage(
-                            file: fileEntity,
-                            // onHlsPlayPressed: () {
-                            //   widget.onFilePressed?.call(fileEntity);
-                            // },
-                          ),
-                        ),
-                      );
-                    }
+                      ),
+                    );
                   }
                 },
               );
