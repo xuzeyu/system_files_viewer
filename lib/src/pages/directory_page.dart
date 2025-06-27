@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:system_files_viewer/system_files_viewer.dart';
 
@@ -8,11 +7,11 @@ class DirectoryPage extends StatefulWidget {
   const DirectoryPage({
     super.key,
     required this.directory,
-    this.onHlsPlayPressed,
+    this.onFilePageBuilder,
   });
 
   final Directory directory;
-  final void Function(File hlsFile)? onHlsPlayPressed;
+  final Widget Function(File file)? onFilePageBuilder;
 
   @override
   State<DirectoryPage> createState() => _DirectoryPageState();
@@ -176,20 +175,33 @@ class _DirectoryPageState extends State<DirectoryPage> {
                 currentDirectory: widget.directory,
                 isSelected: isSelectMode && selectedIndexes.contains(index),
                 onLongPress: () => onLongPress(index),
-                onPressed: isSelectMode
-                    ? () => onPressedInSelectMode(index)
-                    : () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => FileDetailsPage(
-                              file: fileEntity,
-                              onHlsPlayPressed: () {
-                                widget.onHlsPlayPressed?.call(fileEntity);
-                              },
-                            ),
-                          ),
-                        );
-                      },
+                onPressed: () {
+                  if (isSelectMode) {
+                    onPressedInSelectMode(index);
+                  } else if (widget.onFilePageBuilder != null) {
+                    Widget? fileDetailsPage;
+                    if (widget.onFilePageBuilder != null) {
+                      fileDetailsPage = widget.onFilePageBuilder!(fileEntity);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return fileDetailsPage!;
+                          },
+                        ),
+                      );
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FileDetailsPage(
+                          file: fileEntity,
+                          // onHlsPlayPressed: () {
+                          //   widget.onFilePressed?.call(fileEntity);
+                          // },
+                        ),
+                      ),
+                    );
+                  }
+                },
               );
             }
             return DirectoryTile(
@@ -203,7 +215,7 @@ class _DirectoryPageState extends State<DirectoryPage> {
                         MaterialPageRoute(
                           builder: (context) => DirectoryPage(
                             directory: fileEntity,
-                            onHlsPlayPressed: widget.onHlsPlayPressed,
+                            onFilePageBuilder: widget.onFilePageBuilder,
                           ),
                         ),
                       );

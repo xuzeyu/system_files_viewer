@@ -6,10 +6,10 @@ class FileDetailsPage extends StatefulWidget {
   const FileDetailsPage({
     super.key,
     required this.file,
-    this.onHlsPlayPressed,
+    // this.onHlsPlayPressed,
   });
   final File file;
-  final VoidCallback? onHlsPlayPressed;
+  // final VoidCallback? onHlsPlayPressed;
 
   @override
   State<FileDetailsPage> createState() => _FileDetailsPageState();
@@ -48,16 +48,16 @@ class _FileDetailsPageState extends State<FileDetailsPage> {
           title: Text(
             fileName,
           ),
-          actions: [
-            if (fileNameExtension == "m3u8")
-              IconButton(
-                onPressed: widget.onHlsPlayPressed,
-                icon: Icon(
-                  Icons.play_arrow,
-                  color: Colors.green.shade700,
-                ),
-              )
-          ],
+          // actions: [
+          //   if (fileNameExtension == "m3u8")
+          //     IconButton(
+          //       onPressed: widget.onHlsPlayPressed,
+          //       icon: Icon(
+          //         Icons.play_arrow,
+          //         color: Colors.green.shade700,
+          //       ),
+          //     )
+          // ],
         ),
         body: hasError
             ? const Center(

@@ -40,9 +40,7 @@ class _ExamplePageState extends State<ExamplePage> {
 
             if (context.mounted) {
               SystemFilesViewer.openDirectoryPage(
-                context: context,
-                directory: directory,
-              );
+                  context: context, directory: directory);
             }
           },
           child: const Text("Enter directory"),
